@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 @Entity
 @Table(name = "posts")
@@ -12,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Audited
 public class PostEntity extends AuditableEntity{
 
     @Id
@@ -20,5 +23,6 @@ public class PostEntity extends AuditableEntity{
 
     private String title;
 
+//    @NotAudited
     private String description;
 }
