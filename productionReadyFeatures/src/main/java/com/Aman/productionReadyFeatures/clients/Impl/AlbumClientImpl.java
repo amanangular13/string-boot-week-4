@@ -4,6 +4,8 @@ import com.Aman.productionReadyFeatures.clients.AlbumClient;
 import com.Aman.productionReadyFeatures.dto.AlbumDTO;
 import com.Aman.productionReadyFeatures.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -17,16 +19,21 @@ public class AlbumClientImpl implements AlbumClient {
 
     private final RestClient restClient;
 
+    private final Logger log = LoggerFactory.getLogger(AlbumClientImpl.class);
+
     @Override
     public List<AlbumDTO> getAllAlbums() {
+        log.debug("Trying to access all albums in getAllAlbums");
         try {
             List<AlbumDTO> albumDTOList = restClient.get()
                     .uri("/albums")
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {
                     });
+            log.info("successfully retrieved album list");
             return albumDTOList;
         } catch (Exception e) {
+            log.error("Error occurred in getAllAlbums ", e);
             throw new RuntimeException(e);
         }
     }
